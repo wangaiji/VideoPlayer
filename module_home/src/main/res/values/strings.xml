@@ -1,3 +1,6 @@
 <resources>
     <string name="home_app_name">ModuleHome</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="home_fragment">Hello home fragment</string>
 </resources>

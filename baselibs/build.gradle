@@ -33,11 +33,11 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api rootProject.ext.dependencies.appcompat_v7
-    api rootProject.ext.dependencies.constraint_layout
+    api rootProject.ext.supportLibs
+    api rootProject.ext.commonLibs
 
-    api rootProject.ext.dependencies.arouter_api
-    annotationProcessor rootProject.ext.dependencies.arouter_compiler
+
+//    api rootProject.ext.annotationLibs
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

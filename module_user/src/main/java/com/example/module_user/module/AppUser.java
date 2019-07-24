@@ -1,12 +1,12 @@
-package com.example.module_home;
+package com.example.module_user.module;
 
 import android.app.Application;
 import android.util.Log;
 
-public class AppHome extends Application {
+public class AppUser extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d("oncreate", "AppHome");
+        Log.d("oncreate", "AppUser");
     }
 }

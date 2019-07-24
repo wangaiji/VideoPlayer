@@ -58,7 +58,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //路由
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    annotationProcessor rootProject.ext.dependencies.arouter_compiler
+    annotationProcessor rootProject.ext.annotationDeps.arouter_compiler
     implementation project(':baselibs')
 
     testImplementation 'junit:junit:4.12'

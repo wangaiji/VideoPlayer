@@ -3,7 +3,7 @@
     package="com.example.module_community">
 
     <application android:theme="@style/AppTheme">
-        <activity android:name=".CommunityActivity"></activity>
+        <activity android:name=".activity.CommunityActivity"></activity>
     </application>
 
 </manifest>

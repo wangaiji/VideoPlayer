@@ -57,7 +57,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //路由
-    annotationProcessor rootProject.ext.dependencies.arouter_compiler
+    annotationProcessor rootProject.ext.annotationDeps.arouter_compiler
     implementation project(':baselibs')
 
     testImplementation 'junit:junit:4.12'

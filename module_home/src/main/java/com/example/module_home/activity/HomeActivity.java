@@ -1,13 +1,15 @@
-package com.example.module_community;
+package com.example.module_home.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class CommunityActivity extends AppCompatActivity {
+import com.example.module_home.R;
+
+public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_community);
+        setContentView(R.layout.activity_home);
     }
 }

@@ -1,12 +1,12 @@
-package com.example.module_user;
+package com.example.module_community.module;
 
 import android.app.Application;
 import android.util.Log;
 
-public class AppUser extends Application {
+public class AppCommunity extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d("oncreate", "AppUser");
+        Log.d("oncreate", "AppCommunity");
     }
 }

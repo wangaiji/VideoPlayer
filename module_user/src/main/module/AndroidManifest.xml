@@ -3,14 +3,14 @@
     package="com.example.module_user">
 
     <application
-        android:name=".AppUser"
+        android:name=".module.AppUser"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/user_app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UserActivity">
+        <activity android:name=".activity.UserActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,3 +1,6 @@
 <resources>
     <string name="community_app_name">ModuleCommunity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="community_fragment">Hello community fragment</string>
 </resources>
