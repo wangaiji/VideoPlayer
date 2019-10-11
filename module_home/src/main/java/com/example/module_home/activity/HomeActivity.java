@@ -8,6 +8,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.module_home.R;
+import com.example.module_home.fragment.HomeFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -15,6 +16,6 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.h_activity_home);
-
+        getSupportFragmentManager().beginTransaction().replace(R.id.home_container, new HomeFragment()).commit();
     }
 }
