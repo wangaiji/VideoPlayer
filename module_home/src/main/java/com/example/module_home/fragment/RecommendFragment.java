@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.example.module_home.R;
+import com.example.module_home.base.BaseFragment;
 import com.example.module_home.widgets.BannerLoader;
 import com.example.module_home.widgets.ItemView;
 import com.youth.banner.Banner;
@@ -25,7 +26,7 @@ import com.youth.banner.listener.OnBannerListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecommendFragment extends Fragment implements OnBannerListener, SwipeRefreshLayout.OnRefreshListener, NestedScrollView.OnScrollChangeListener{
+public class RecommendFragment extends BaseFragment implements OnBannerListener, SwipeRefreshLayout.OnRefreshListener, NestedScrollView.OnScrollChangeListener{
     private Banner banner;
     private List<String> imagePathList;
     private LinearLayout mItemLayout;
@@ -47,19 +48,13 @@ public class RecommendFragment extends Fragment implements OnBannerListener, Swi
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         scrollView = view.findViewById(R.id.scrollView);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        scrollView.setOnScrollChangeListener(this);
         return view;
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        Log.d("3877645","1");
-        super.onActivityCreated(savedInstanceState);
-        initView();
-        swipeRefreshLayout.setOnRefreshListener(this);
-        scrollView.setOnScrollChangeListener(this);
-    }
-
-    private void initView() {
+    public void initData() {
         imagePathList = new ArrayList<>();
         imagePathList.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic21363tj30ci08ct96.jpg");
         imagePathList.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic259ohaj30ci08c74r.jpg");
@@ -101,13 +96,12 @@ public class RecommendFragment extends Fragment implements OnBannerListener, Swi
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
         oneView.destroy();
         twoView.destroy();
         threeView.destroy();
+        super.onDestroyView();
     }
-
 
     @Override
     public void onScrollChange(NestedScrollView nestedScrollView, int x, int y, int oldX, int oldY) {
