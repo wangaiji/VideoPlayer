@@ -26,7 +26,7 @@ public class ItemView extends LinearLayout implements MessageContract.View {
     private GridLayoutManager layoutManager;
     private MessagePresenter messagePresenter;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private String name;
+    private String name = "";
     private String id;
     private List<VideoRecommend> videoRecommendList = new ArrayList<>();
 
@@ -99,7 +99,8 @@ public class ItemView extends LinearLayout implements MessageContract.View {
     }
 
 
-    public void destroy() {
-        messagePresenter.detachView();
+    public MessageContract.Presenter getPresenter() {
+        return messagePresenter;
     }
+
 }

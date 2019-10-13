@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.bumptech.glide.Glide;
 import com.example.module_home.R;
 import com.example.module_home.data.VideoRecommend;
@@ -17,6 +18,7 @@ import java.util.List;
 public class VideoRecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private List<VideoRecommend> mVideoRecommendList = new ArrayList<>();
+
 
     public VideoRecommendAdapter(List<VideoRecommend> mVideoRecommendList) {
        this.mVideoRecommendList.clear();
@@ -36,6 +38,7 @@ public class VideoRecommendAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         VideoViewHolder holder = (VideoViewHolder) viewHolder;
         holder.videoName.setText(mVideoRecommendList.get(position).getName());
+        holder.videoImage.setTag(mVideoRecommendList.get(position).getImageUrl());
         Glide.with(mContext).load(mVideoRecommendList.get(position).getImageUrl()).into(holder.videoImage);
     }
 

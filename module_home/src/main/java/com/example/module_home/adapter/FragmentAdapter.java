@@ -1,10 +1,11 @@
 package com.example.module_home.adapter;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.ViewGroup;
 
 import com.example.module_home.fragment.RecommendFragment;
 
@@ -50,9 +51,13 @@ public class FragmentAdapter extends FragmentStatePagerAdapter {
         return mTitles.size();
     }
 
-    @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
         return mTitles.get(position);
+    }
+
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        // super.destroyItem(container, position, object);
     }
 }

@@ -123,7 +123,9 @@ public class MessagePresenter extends MessageContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         Log.d("29854375","2");
-                        getView().stopRefresh();
+                        if (getView() != null) {
+                            getView().stopRefresh();
+                        }
                         Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
                     }
 
@@ -132,7 +134,6 @@ public class MessagePresenter extends MessageContract.Presenter {
 
                     }
                 });
-
     }
 
     @Override

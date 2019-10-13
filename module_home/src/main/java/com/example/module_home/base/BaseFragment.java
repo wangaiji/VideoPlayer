@@ -11,6 +11,7 @@ public abstract class BaseFragment extends Fragment {
     private boolean isPrepareView = false;
     private boolean isInitData = false;
     private boolean isVisibleToUser = false;
+    private boolean isFirstTime = true;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -20,9 +21,10 @@ public abstract class BaseFragment extends Fragment {
     }
 
     private void lazyInitData() {
-        if (!isInitData && isPrepareView && isVisibleToUser) {
+        if (!isInitData && isPrepareView && isVisibleToUser && isFirstTime) {
             initData();
             isInitData = true;
+            isFirstTime = false;
         }
     }
 

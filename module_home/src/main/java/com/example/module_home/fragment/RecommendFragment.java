@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 
 import com.example.module_home.R;
 import com.example.module_home.base.BaseFragment;
+import com.example.module_home.mvp.presenter.MessagePresenter;
 import com.example.module_home.widgets.BannerLoader;
 import com.example.module_home.widgets.ItemView;
 import com.youth.banner.Banner;
@@ -31,11 +32,13 @@ public class RecommendFragment extends BaseFragment implements OnBannerListener,
     private List<String> imagePathList;
     private LinearLayout mItemLayout;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private List<MessagePresenter> messagePresenter = new ArrayList<>();
     private NestedScrollView scrollView;
     private ItemView oneView;
     private ItemView twoView;
     private ItemView threeView;
     private Bundle bundle;
+    private Boolean IsFirstTime = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,17 +73,23 @@ public class RecommendFragment extends BaseFragment implements OnBannerListener,
         final String data = bundle.getString("id");
         oneView = new ItemView(getContext())
                 .init(data)
-                .setItemName("最热");
+                .setItemName("最热")
+                .setSwipeLayout(swipeRefreshLayout);
+        messagePresenter.add((MessagePresenter) oneView.getPresenter());
         twoView = new ItemView(getContext())
                 .init(data)
-                .setItemName("最新");
+                .setItemName("最新")
+                .setSwipeLayout(swipeRefreshLayout);
+        messagePresenter.add((MessagePresenter) twoView.getPresenter());
         threeView = new ItemView(getContext())
                 .init(data)
                 .setItemName("热门")
                 .setSwipeLayout(swipeRefreshLayout);
+        messagePresenter.add((MessagePresenter) threeView.getPresenter());
         mItemLayout.addView(oneView);
         mItemLayout.addView(twoView);
         mItemLayout.addView(threeView);
+
     }
 
     @Override
@@ -96,11 +105,15 @@ public class RecommendFragment extends BaseFragment implements OnBannerListener,
     }
 
     @Override
-    public void onDestroyView() {
-        oneView.destroy();
-        twoView.destroy();
-        threeView.destroy();
-        super.onDestroyView();
+    public void onDestroy() {
+        if (messagePresenter != null) {
+            for (MessagePresenter messagePresenter: messagePresenter) {
+                messagePresenter.detachView();
+            }
+            messagePresenter = null;
+        }
+        Log.d("3877645","1");
+        super.onDestroy();
     }
 
     @Override
