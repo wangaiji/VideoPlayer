@@ -25,7 +25,7 @@ import io.reactivex.schedulers.Schedulers;
 
 
 public class MessagePresenter extends MessageContract.Presenter {
-    private Map<VideoRecommend, String> mVideoRcList = new HashMap<>();
+    private Map<String, String> mVideoRcList = new HashMap<>();
     private List<VideoRecommend> recommendList = new ArrayList<>();
     private Context mContext;
     private String mHotUrl;
@@ -45,16 +45,15 @@ public class MessagePresenter extends MessageContract.Presenter {
                     public void accept(VideoMessage videoMessage) throws Exception {
                         if (videoMessage != null) {
                             if (videoMessage.getResultCode().equals("1") && videoMessage.getResultMsg().equals("success")) {
-                                mVideoRcList.clear();
                                 recommendList.clear();
                                 if (getView().getDataName().equals("最热")) {
                                     for (VideoMessage.HotListBean hotListBean : videoMessage.getHotList()) {
                                         recommendList.add(new VideoRecommend(hotListBean.getName(), hotListBean.getPic()));
-                                        mVideoRcList.put(new VideoRecommend(hotListBean.getName(), hotListBean.getPic()), hotListBean.getContId());
+                                        mVideoRcList.put(hotListBean.getName(), hotListBean.getContId());
                                     }
                                     if (mVideoRcList.size() % 2 != 0) {
                                         recommendList.add(new VideoRecommend(videoMessage.getContList().get(0).getName(), videoMessage.getContList().get(0).getPic()));
-                                        mVideoRcList.put(new VideoRecommend(videoMessage.getContList().get(0).getName(), videoMessage.getContList().get(0).getPic()), videoMessage.getContList().get(0).getContId());
+                                        mVideoRcList.put(videoMessage.getContList().get(0).getName(), videoMessage.getContList().get(0).getContId());
                                     }
                                     if (recommendList != null) {
                                         getView().setData(recommendList);
@@ -66,7 +65,7 @@ public class MessagePresenter extends MessageContract.Presenter {
                                     }
                                     for (int i = 1; i < length; i++) {
                                         recommendList.add(new VideoRecommend(videoMessage.getContList().get(i).getName(), videoMessage.getContList().get(i).getPic()));
-                                        mVideoRcList.put(new VideoRecommend(videoMessage.getContList().get(i).getName(), videoMessage.getContList().get(i).getPic()), videoMessage.getContList().get(i).getContId());
+                                        mVideoRcList.put(videoMessage.getContList().get(i).getName(), videoMessage.getContList().get(i).getContId());
                                     }
                                     if (recommendList != null) {
                                         getView().setData(recommendList);
@@ -105,7 +104,7 @@ public class MessagePresenter extends MessageContract.Presenter {
                                     mHotUrl = videoMessage.getNextUrl();
                                     for (VideoMessage.ContListBean contListBean : videoMessage.getContList()) {
                                         recommendList.add(new VideoRecommend(contListBean.getName(), contListBean.getPic()));
-                                        mVideoRcList.put(new VideoRecommend(contListBean.getName(), contListBean.getPic()), contListBean.getContId());
+                                        mVideoRcList.put(contListBean.getName(), contListBean.getContId());
                                     }
                                     if (recommendList != null) {
                                             getView().refreshData(recommendList);
@@ -137,8 +136,8 @@ public class MessagePresenter extends MessageContract.Presenter {
     }
 
     @Override
-    public String getHotUrl() {
-        return mHotUrl;
+    public Map<String, String> getVideoList() {
+        return mVideoRcList;
     }
 
 

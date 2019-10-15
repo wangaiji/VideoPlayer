@@ -18,7 +18,8 @@ import java.util.List;
 public class VideoRecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private List<VideoRecommend> mVideoRecommendList = new ArrayList<>();
-
+    private OnItemClickListener mItemClickListener;
+    private String mItemText;
 
     public VideoRecommendAdapter(List<VideoRecommend> mVideoRecommendList) {
        this.mVideoRecommendList.clear();
@@ -35,16 +36,29 @@ public class VideoRecommendAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        VideoViewHolder holder = (VideoViewHolder) viewHolder;
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
+        final VideoViewHolder holder = (VideoViewHolder) viewHolder;
         holder.videoName.setText(mVideoRecommendList.get(position).getName());
-        holder.videoImage.setTag(mVideoRecommendList.get(position).getImageUrl());
         Glide.with(mContext).load(mVideoRecommendList.get(position).getImageUrl()).into(holder.videoImage);
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mItemClickListener != null) {
+                    mItemText = holder.videoName.getText().toString();
+                    mItemClickListener.onClick(position);
+                }
+
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return mVideoRecommendList.size();
+    }
+
+    public String getItemText() {
+        return mItemText;
     }
 
     public void setVideoRecommendList(List<VideoRecommend> videoRecommendList) {
@@ -57,5 +71,13 @@ public class VideoRecommendAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         mVideoRecommendList.addAll(list);
         notifyItemRangeInserted(position, list.size());
         Log.d("2748764",  mVideoRecommendList.toString() + "  65");
+    }
+
+    public interface OnItemClickListener {
+        void onClick(int position);
+    }
+
+    public void setItemClickListener(OnItemClickListener onItemClickListener) {
+        this.mItemClickListener = onItemClickListener;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.module_home.widgets;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,13 +12,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.module_home.R;
+import com.example.module_home.activity.VideoPlayActivity;
 import com.example.module_home.adapter.VideoRecommendAdapter;
 import com.example.module_home.data.VideoRecommend;
+import com.example.module_home.fragment.RecommendFragment;
 import com.example.module_home.mvp.contract.MessageContract;
 import com.example.module_home.mvp.presenter.MessagePresenter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ItemView extends LinearLayout implements MessageContract.View {
     private TextView itemName;
@@ -28,6 +32,7 @@ public class ItemView extends LinearLayout implements MessageContract.View {
     private SwipeRefreshLayout swipeRefreshLayout;
     private String name = "";
     private String id;
+    private Context context;
     private List<VideoRecommend> videoRecommendList = new ArrayList<>();
 
     public ItemView(Context context) {
@@ -36,6 +41,7 @@ public class ItemView extends LinearLayout implements MessageContract.View {
 
     public ItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
     }
 
     public ItemView init(String id) {
@@ -50,6 +56,18 @@ public class ItemView extends LinearLayout implements MessageContract.View {
         // 解决滑动冲突
         recyclerView.setNestedScrollingEnabled(false);
         adapter = new VideoRecommendAdapter(videoRecommendList);
+        adapter.setItemClickListener(new VideoRecommendAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(int position) {
+                for (String key: messagePresenter.getVideoList().keySet()) {
+                    if (adapter.getItemText().equals(key)) {
+                        Intent intent = new Intent(context, VideoPlayActivity.class);
+                        intent.putExtra("id", messagePresenter.getVideoList().get(key));
+                        context.startActivity(intent);
+                    }
+                }
+            }
+        });
         recyclerView.setAdapter(adapter);
         return this;
     }

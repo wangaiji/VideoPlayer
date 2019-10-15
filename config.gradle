@@ -3,7 +3,7 @@ ext {
             compileSdkVersion: 28,
             buildToolsVersion: "28.0.3",
             applicationId    : "com.example.moduledemo",
-            minSdkVersion    : 19,
+            minSdkVersion    : 21,
             targetSdkVersion : 28,
             versionCode      : 1,
             versionName      : "1.0.0"
@@ -40,9 +40,21 @@ ext {
 
     ]
 
+    ijkplayerDeps = [
+            "java"      : 'tv.danmaku.ijk.media:ijkplayer-java:0.8.8',
+            "armv7a"    : 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8',
+            "armv5"     : 'tv.danmaku.ijk.media:ijkplayer-armv5:0.8.8',
+            "arm64"     : 'tv.danmaku.ijk.media:ijkplayer-arm64:0.8.8',
+            "x86"       : 'tv.danmaku.ijk.media:ijkplayer-x86:0.8.8',
+            "x86_64"    : 'tv.danmaku.ijk.media:ijkplayer-x86_64:0.8.8',
+            "exo"       : 'tv.danmaku.ijk.media:ijkplayer-exo:0.8.8',
+            "danmaku"   : 'com.github.ctiao:DanmakuFlameMaster:0.9.25'
+    ]
+
     supportLibs = supportDeps.values()
     commonLibs = commonDeps.values()
     annotationLibs = annotationDeps.values()
     bannerLibs = bannerDeps.values()
     retrofitLibs = retrofitDeps.values()
+    ijkplayerLibs = ijkplayerDeps.values()
 }

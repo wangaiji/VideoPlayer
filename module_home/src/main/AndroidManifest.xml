@@ -2,8 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.module_home">
 
-    <application android:theme="@style/AppTheme">
-        <activity android:name=".activity.HomeActivity"></activity>
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <application android:name=".module.AppHome"
+        android:theme="@style/AppTheme">
+        <activity android:name=".activity.VideoPlayActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".activity.HomeActivity" />
     </application>
 
 </manifest>

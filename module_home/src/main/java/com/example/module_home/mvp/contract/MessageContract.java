@@ -18,6 +18,6 @@ public interface MessageContract {
 
     abstract class Presenter extends BasePresenter<View> {
         public abstract void getVideoMessage(String id);
-        public abstract String getHotUrl();
+        public abstract Map<String, String> getVideoList();
     }
 }
