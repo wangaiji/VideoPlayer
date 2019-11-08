@@ -206,6 +206,7 @@ public class IjkPlayerView extends FrameLayout implements View.OnClickListener {
         }
     };
 
+
     private Runnable mHideBarRunnable = new Runnable() {
         @Override
         public void run() {

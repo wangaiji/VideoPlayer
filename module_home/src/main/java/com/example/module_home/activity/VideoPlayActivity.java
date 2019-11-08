@@ -67,6 +67,8 @@ public class VideoPlayActivity extends AppCompatActivity implements VideoContrac
     protected void onDestroy() {
         super.onDestroy();
         ijkPlayerView.onDestroy();
+        videoPresenter.detachView();
+        videoPresenter.unSubscribe();
     }
 
     @Override

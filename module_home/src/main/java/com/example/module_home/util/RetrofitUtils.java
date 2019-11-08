@@ -1,6 +1,8 @@
 package com.example.module_home.util;
 
 
+import android.util.Log;
+
 import com.example.module_home.module.AppHome;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
@@ -57,6 +59,7 @@ public class RetrofitUtils {
 
         @Override
         public Response intercept(Chain chain) throws IOException {
+            Log.d("786554", "1");
             // 无缓存，进行最大60秒缓存
             return chain.proceed(chain.request()).newBuilder()
                     .removeHeader("Pragma")
@@ -73,6 +76,7 @@ public class RetrofitUtils {
             Request request;
             // 有网络检查10秒内的缓存
             if (NetworkUtils.isNetworkAvailable(AppHome.getContext())) {
+                Log.d("786554", "2");
                 request = chain.request()
                         .newBuilder()
                         .cacheControl(new CacheControl
@@ -81,6 +85,7 @@ public class RetrofitUtils {
                                 .build())
                         .build();
             } else {
+                Log.d("786554", "3");
                 // 无网络检查30天内的缓存，即使是过期的
                 request = chain.request()
                         .newBuilder()

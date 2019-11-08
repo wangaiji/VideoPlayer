@@ -4,7 +4,9 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.module_home.base.BaseModel;
 import com.example.module_home.data.VideoMessage;
+import com.example.module_home.data.VideoModel;
 import com.example.module_home.data.VideoRecommend;
 import com.example.module_home.mvp.contract.MessageContract;
 import com.example.module_home.util.RetrofitUtils;
@@ -18,6 +20,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
@@ -29,16 +32,21 @@ public class MessagePresenter extends MessageContract.Presenter {
     private List<VideoRecommend> recommendList = new ArrayList<>();
     private Context mContext;
     private String mHotUrl;
+    private VideoModel mBaseModel;
+    private CompositeDisposable mCompositeDisposable;
 
     public MessagePresenter(Context context, MessageContract.View view) {
         mContext = context;
         attachView(view);
+        mBaseModel = new VideoModel();
+        mCompositeDisposable = new CompositeDisposable();
     }
 
     @Override
     public void getVideoMessage(String id) {
-        Observable<VideoMessage> observable = RetrofitUtils.getApiService().getVideoMessageCall(id);
-        observable.subscribeOn(Schedulers.io())
+//        Observable<VideoMessage> observable = RetrofitUtils.getApiService().getVideoMessageCall(id);
+        mBaseModel.getMessage(id)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(new Consumer<VideoMessage>() {
                     @Override
@@ -51,7 +59,7 @@ public class MessagePresenter extends MessageContract.Presenter {
                                         recommendList.add(new VideoRecommend(hotListBean.getName(), hotListBean.getPic()));
                                         mVideoRcList.put(hotListBean.getName(), hotListBean.getContId());
                                     }
-                                    if (mVideoRcList.size() % 2 != 0) {
+                                    if (recommendList.size() % 2 != 0) {
                                         recommendList.add(new VideoRecommend(videoMessage.getContList().get(0).getName(), videoMessage.getContList().get(0).getPic()));
                                         mVideoRcList.put(videoMessage.getContList().get(0).getName(), videoMessage.getContList().get(0).getContId());
                                     }
@@ -85,14 +93,14 @@ public class MessagePresenter extends MessageContract.Presenter {
                 .flatMap(new Function<VideoMessage, ObservableSource<VideoMessage>>() {
                     @Override
                     public ObservableSource<VideoMessage> apply(VideoMessage videoMessage) throws Exception {
-                        return RetrofitUtils.getApiService().getHotMessageCall(mHotUrl);
+                        return mBaseModel.getHot(mHotUrl);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<VideoMessage>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        mCompositeDisposable.add(d);
                     }
 
                     @Override
@@ -140,5 +148,8 @@ public class MessagePresenter extends MessageContract.Presenter {
         return mVideoRcList;
     }
 
-
+    @Override
+    public void unSubscribe() {
+        mCompositeDisposable.clear();
+    }
 }

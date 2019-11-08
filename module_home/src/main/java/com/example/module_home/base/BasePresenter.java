@@ -18,7 +18,7 @@ public abstract class BasePresenter<T>{
     public void detachView() {
         mView = null;
     }
-
+    public abstract void unSubscribe();
     public T getView() {
         return mView;
     }

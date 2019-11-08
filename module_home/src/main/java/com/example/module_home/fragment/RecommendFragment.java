@@ -109,6 +109,7 @@ public class RecommendFragment extends BaseFragment implements OnBannerListener,
         if (messagePresenter != null) {
             for (MessagePresenter messagePresenter: messagePresenter) {
                 messagePresenter.detachView();
+                messagePresenter.unSubscribe();
             }
             messagePresenter = null;
         }
