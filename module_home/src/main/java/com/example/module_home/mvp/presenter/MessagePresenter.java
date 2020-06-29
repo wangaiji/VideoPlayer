@@ -44,7 +44,6 @@ public class MessagePresenter extends MessageContract.Presenter {
 
     @Override
     public void getVideoMessage(String id) {
-//        Observable<VideoMessage> observable = RetrofitUtils.getApiService().getVideoMessageCall(id);
         mBaseModel.getMessage(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

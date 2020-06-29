@@ -5,10 +5,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
@@ -154,6 +156,8 @@ public class IjkPlayerView extends FrameLayout implements View.OnClickListener {
     private OrientationEventListener mOrientationListener;
     // 手势控制
     private GestureDetector mGestureDetector;
+
+    private String mVideoId;
 
     private DanmakuSendDialog.DialogListener mListener = new DanmakuSendDialog.DialogListener() {
         @Override
@@ -332,6 +336,8 @@ public class IjkPlayerView extends FrameLayout implements View.OnClickListener {
                 case MotionEvent.ACTION_DOWN:
                     mode = NORMAL;
                     mHandler.removeCallbacks(mHideBarRunnable);
+                    break;
+                default:
                     break;
             }
             if (mode == NORMAL) {
@@ -562,6 +568,8 @@ public class IjkPlayerView extends FrameLayout implements View.OnClickListener {
             case MediaPlayerParams.STATE_COMPLETED:
                 pause();
                 break;
+            default:
+                break;
         }
     }
 
@@ -594,6 +602,9 @@ public class IjkPlayerView extends FrameLayout implements View.OnClickListener {
 
         if (mIsNeverPlay) {
             mIsNeverPlay = false;
+            SharedPreferences sharedPreferences = context.getSharedPreferences(mVideoId, Context.MODE_PRIVATE);
+            int position = sharedPreferences.getInt("last_position", 0);
+            mVideoView.seekTo(position);
             initDanmakuView();
             mDanmakuView.hide();
         }
@@ -874,17 +885,21 @@ public class IjkPlayerView extends FrameLayout implements View.OnClickListener {
             seekTo(mCurPosition);
             mCurPosition = -1;
         }
-        mVideoView.start();
+        if (mPlayBackground.getVisibility() == View.GONE) {
+            mVideoView.start();
+        }
         mPlayButton.setSelected(false);
     }
 
     public void onPause() {
-        Log.d("7366453","2");
         mCurPosition = mVideoView.getCurrentPosition();
+        SharedPreferences sharedPreferences = context.getSharedPreferences(mVideoId, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("last_position", mCurPosition);
+        editor.commit();
         mVideoView.pause();
         mPlayButton.setSelected(true);
         if (mDanmakuView != null && mDanmakuView.isPrepared()) {
-            Log.d("7366453","8");
             mDanmakuView.pause();
         }
     }
@@ -895,10 +910,8 @@ public class IjkPlayerView extends FrameLayout implements View.OnClickListener {
         mVideoView.stopPlayback();
     }
 
-    public int onDestroy() {
+    public void onDestroy() {
         Log.d("7366453","4");
-        // 记录播放进度
-        int curPosition = mVideoView.getCurrentPosition();
         mVideoView.destroy();
         IjkMediaPlayer.native_profileEnd();
         // 注销广播
@@ -907,7 +920,6 @@ public class IjkPlayerView extends FrameLayout implements View.OnClickListener {
             mDanmakuView.release();
             mDanmakuView = null;
         }
-        return curPosition;
     }
 
     @Override
@@ -1045,5 +1057,10 @@ public class IjkPlayerView extends FrameLayout implements View.OnClickListener {
                 mDanmakuView.resume();
             }
         }
+    }
+
+    public IjkPlayerView setVideoId(String videoId) {
+        mVideoId = videoId;
+        return this;
     }
 }

@@ -76,7 +76,7 @@ public class VideoPlayActivity extends AppCompatActivity implements VideoContrac
         ijkPlayerView.init(contentInfo.getContent().getPic())
                 .createParser(stream)
                 .setVideoPath(contentInfo.getContent().getVideos().get(1).getUrl())
-                .setTitle(contentInfo.getContent().getName());
-
+                .setTitle(contentInfo.getContent().getName())
+                .setVideoId(contentInfo.getContent().getVideos().get(1).getVideoId());
     }
 }

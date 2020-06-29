@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
                         beginTransaction.show(userFragment);
                         beginTransaction.commit();
                         break;
+                    default:
+                        break;
                 }
                 return true;
             }
